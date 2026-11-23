@@ -12,7 +12,23 @@ Bring your own agent: Codex, Claude Code, or another assistant that can read Age
 - Records interview preparation/debriefs and training progress with evidence artifacts.
 - Gives another agent a bounded, persistent workspace to continue without rereading everything.
 
-Designed for different professions, not only software engineers. The included project-coordinator example is entirely fictional. This is **alpha software (0.1.0)**; see [design and limitations](docs/design.md).
+Designed for different professions, not only software engineers. The included project-coordinator example is entirely fictional. This is **alpha software (0.2.0)**; see [design and limitations](docs/design.md).
+
+## Start a training session
+
+From the source checkout, run:
+
+```bash
+./run_self_training.sh
+# The familiar spelling is also supported:
+./run_self_trainging.sh
+```
+
+This initializes or resumes `~/careerflow-workspace`, opens **http://127.0.0.1:8872/** and returns your terminal. Set `CAREERFLOW_WORKSPACE` or pass `--root /path/to/private-workspace` to choose another location. Use `--no-browser` to print the URL, or `--foreground` to stop with Ctrl-C. Re-running reuses the same workspace server; it will not replace another app on that port.
+
+In the browser, request a topic or leave it blank for an agent suggestion. Copy the displayed prompt into Codex/Claude Code with the skill installed. The agent reads your request and context, writes a lesson, then you refresh the browser to practice. Save a draft, submit an attempt, ask the agent to review it, then complete or retry. Lessons, drafts, artifacts and feedback share the same private workspace across agents. The web server does not call a model or execute exercise code.
+
+Standalone skill users can run its entrypoint with `--root WORKSPACE training-web`. CLI users can use `careerflow --root WORKSPACE training-request --topic 'Your topic' --minutes 30`; `training-pending` shows queued work. See the [training session guide](skills/job-application-workflow/references/training-sessions.md) for generation/review schemas and resume commands.
 
 ## Install the skill
 
@@ -85,6 +101,7 @@ Detailed references:
 - [Workspace, profile and recovery](skills/job-application-workflow/references/workspace.md)
 - [Applications, review and submission records](skills/job-application-workflow/references/applications.md)
 - [Interviews and training](skills/job-application-workflow/references/interviews-training.md)
+- [Interactive training sessions and local web app](skills/job-application-workflow/references/training-sessions.md)
 - [Fictional demonstration](docs/demo.md)
 - [Architecture and limits](docs/design.md)
 

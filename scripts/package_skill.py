@@ -10,15 +10,16 @@ ROOT = Path(__file__).resolve().parents[1]
 NAME = 'job-application-workflow'
 FILES = [
     'SKILL.md', 'agents/openai.yaml', 'scripts/manage_applications.py',
-    'references/workspace.md', 'references/applications.md', 'references/interviews-training.md',
+    'references/workspace.md', 'references/applications.md', 'references/interviews-training.md', 'references/training-sessions.md',
 ]
-MODULES = ['__init__.py','__main__.py','core.py','dashboard.py','render.py','workspace.py','learning.py']
+MODULES = ['__init__.py','__main__.py','core.py','dashboard.py','render.py','workspace.py','learning.py','training.py','training_web.py']
 
 
 def members(root=ROOT):
     result = {NAME+'/'+name:root/'skills'/NAME/name for name in FILES}
     result.update({NAME+'/scripts/runtime/careerflow/'+name:root/'careerflow'/name for name in MODULES})
     result[NAME+'/scripts/runtime/careerflow/assets/resume.json'] = root/'careerflow/assets/resume.json'
+    result[NAME+'/scripts/runtime/careerflow/assets/training.html'] = root/'careerflow/assets/training.html'
     result[NAME+'/LICENSE'] = root/'LICENSE'
     for path in result.values():
         if path.is_symlink() or not path.is_file() or not path.resolve().is_relative_to(root.resolve()):

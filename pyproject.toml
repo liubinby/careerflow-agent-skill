@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "careerflow-agent-skill"
-version = "0.1.0"
+version = "0.2.0"
 description = "A portable agent skill for evidence-based career and job application workflows"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -31,4 +31,4 @@ Issues = "https://github.com/liubinby/careerflow-agent-skill/issues"
 packages = ["careerflow"]
 
 [tool.setuptools.package-data]
-careerflow = ["assets/*.json"]
+careerflow = ["assets/*.json", "assets/*.html"]

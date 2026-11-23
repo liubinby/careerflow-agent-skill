@@ -32,6 +32,8 @@ Use one shared renderer and selected claim IDs. Drafting does not confer factual
 
 ## Prepare, learn and improve
 
+For a training session or a request from the local training web app, read [training sessions](references/training-sessions.md). Generate a focused lesson from the request and bounded context, guide independent practice, review each rubric criterion, preserve attempts and suggest a follow-up. Use the same session records from chat and the browser; never claim a queued request has already been generated or reviewed.
+
 Read [interviews and training](references/interviews-training.md) when an interview, debrief, study plan or practice request warrants it. Reuse topics and project stories; tailor gaps to the role. Keep reported interview questions, candidate answers, recommended answers and practice prompts distinct. Record evidence-based practice progress independently of application state and professional claims.
 
 ## External actions and handoff

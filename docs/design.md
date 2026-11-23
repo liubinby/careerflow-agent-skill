@@ -51,4 +51,14 @@ The same bundled script is tested outside this checkout and in host-like skill d
 
 MIT supports broad personal and commercial reuse with notice preservation. It applies to this project's code, instructions and fictional examples, not users' private records or third-party job text. Python dependencies retain their own licenses. Apache-2.0 would add an explicit patent grant and more license machinery; it is not needed for the initial lightweight release.
 
-Version 0.1.0 is an alpha. Retain a single skill until actual usage demonstrates a need to split it. Prioritize onboarding and data fidelity before source adapters, elaborate dashboards or background automation. Improve from concrete user feedback and reproducible failures rather than speculative infrastructure.
+Version 0.2.0 is an alpha. Retain a single skill until actual usage demonstrates a need to split it. Prioritize onboarding and data fidelity before source adapters, elaborate dashboards or background automation. Improve from concrete user feedback and reproducible failures rather than speculative infrastructure.
+
+## Guided training sessions (0.2.0)
+
+`training.py` owns session transitions inside existing training records: requested → ready → practicing → submitted → reviewed → completed, with reviewed → practicing for retries. Existing legacy records need no migration. Each lesson has a goal, explanation, exercise, staged hints, rubric and optional verified resources. Drafts are shared workspace data; attempts are separate hash-checked artifacts. Every criterion must be reviewed, and a passing latest attempt is required for completion. Generic progress commands cannot bypass these gates or reopen completed sessions.
+
+The agent generates a plan from bounded profile/job/interview context, or reviews a submitted attempt using the skill's documented JSON schemas. The local web app creates requests and shows copyable agent prompts. There is no automatic model invocation, API credential, paid service, or execution of candidate code. This explicit handoff works with whichever supported agent the candidate chooses.
+
+`training_web.py` serves only its bundled UI and narrow session APIs, never the workspace filesystem. It binds to 127.0.0.1, validates Host, requires a per-process token for API access, checks Origin and JSON content type for writes, limits request size and disables caching. Displayed user/agent text uses textContent rather than HTML. This is a local personal service, not authenticated multi-user hosting. Do not expose or proxy it publicly. CLI and web mutations share the same POSIX workspace lock and atomic JSON writes.
+
+The launcher initializes a private workspace when missing, starts a detached local server, checks readiness, reuses only a server for that same root and prints its URL. A different app/workspace on the port produces an actionable error. A foreground option supports Ctrl-C lifecycle management. The existing personal browser-local planner is not imported or rewritten; its progress remains separate.

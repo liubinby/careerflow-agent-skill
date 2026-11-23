@@ -58,13 +58,24 @@ def update(root, record_id, kind, status, note, evidence=None, notes=None):
     if record.get('id') != record_id or record.get('kind') != kind:
         raise ValueError('Learning record identity mismatch')
     note = _text(note,'Result/change note')
+    if record.get('session'):
+        if record['status']=='completed':raise ValueError('Completed sessions are preserved; request another exercise')
+        if status not in {'paused','completed'}:raise ValueError('Use training-start to start or resume a guided session')
     evidence_path = _reference(root,evidence) if evidence is not None else record.get('evidence_path')
     notes_path = _reference(root,notes) if notes is not None else record.get('notes_path')
     if kind == 'training' and status == 'completed':
+        if record.get('session'):
+            from . import training
+            if not training.completion_ready(record):
+                raise ValueError('Session completion requires a passing review of the latest attempt')
+            training.validate_session(root,record)
+            if evidence_path!=record['session']['attempts'][-1]['path']:
+                raise ValueError('Session evidence must be the latest reviewed attempt')
         if not evidence_path:
             raise ValueError('Completed training requires an evidence artifact')
         _reference(root,Path(evidence_path))
     record.update(status=status)
+    if record.get('session') and status=='completed':record['session']['phase']='completed'
     if kind == 'training':record['evidence_path'] = evidence_path
     else:record['notes_path'] = notes_path
     core.event(record,'status_changed',{'status':status,'note':note})
@@ -98,6 +109,9 @@ def validate(root):
                     if record.get(key):_reference(root,Path(record[key]))
                 if kind=='training' and record['status']=='completed' and not record.get('evidence_path'):
                     raise ValueError('Completed training has no evidence')
+                if record.get('session'):
+                    from . import training
+                    training.validate_session(root,record)
             except (ValueError,KeyError,OSError) as exc:
                 errors.append(str(path.relative_to(root))+': '+str(exc))
     return errors

@@ -4,7 +4,7 @@ from contextlib import nullcontext
 import json
 from pathlib import Path
 import sys
-from . import core, dashboard, workspace, learning
+from . import core, dashboard, workspace, learning, training
 
 
 def parser():
@@ -39,6 +39,15 @@ def parser():
     x=sub.add_parser('training-add');x.add_argument('--topic',required=True);x.add_argument('--goal',required=True);x.add_argument('--source',required=True);x.add_argument('--job')
     x=sub.add_parser('training-update');x.add_argument('id');x.add_argument('--status',choices=['planned','in_progress','completed','paused'],required=True);x.add_argument('--note',required=True);x.add_argument('--evidence',type=Path)
     x=sub.add_parser('learning-list');x.add_argument('--kind',choices=['interview','training']);x.add_argument('--job');x.add_argument('--limit',type=int,default=20)
+    x=sub.add_parser('training-request');x.add_argument('--topic',default='');x.add_argument('--minutes',type=int,default=30);x.add_argument('--focus',default='');x.add_argument('--job');x.add_argument('--source',default='Candidate training request')
+    sub.add_parser('training-pending')
+    for command in ('training-show','training-context','training-start'):
+        x=sub.add_parser(command);x.add_argument('id')
+    for command in ('training-plan','training-feedback','training-attempt','training-draft'):
+        x=sub.add_parser(command);x.add_argument('id');x.add_argument('--file',type=Path,required=True,help='Workspace-relative input file')
+        if command=='training-attempt':x.add_argument('--note',required=True)
+    x=sub.add_parser('training-complete');x.add_argument('id');x.add_argument('--note',required=True)
+    x=sub.add_parser('training-web');x.add_argument('--port',type=int,default=8872);x.add_argument('--foreground',action='store_true');x.add_argument('--no-browser',action='store_true')
     return p
 
 
@@ -101,6 +110,21 @@ def execute(a):
     if a.command=='training-add':return learning.add_training(root,a.topic,a.goal,a.source,a.job)
     if a.command=='training-update':return learning.update(root,a.id,'training',a.status,a.note,evidence=a.evidence)
     if a.command=='learning-list':return learning.list_records(root,a.kind,a.job,a.limit)
+    if a.command=='training-request':return training.request(root,a.topic,a.minutes,a.focus,a.job,a.source)
+    if a.command=='training-pending':return training.pending(root)
+    if a.command=='training-show':return training.get(root,a.id)
+    if a.command=='training-context':return training.context(root,a.id)
+    if a.command=='training-start':return training.start(root,a.id)
+    if a.command in {'training-plan','training-feedback','training-attempt','training-draft'}:
+        path=core.local(root,a.file)
+        if a.command=='training-plan':return training.plan(root,a.id,core.read(path))
+        if a.command=='training-feedback':return training.feedback(root,a.id,core.read(path))
+        if a.command=='training-draft':return training.save_draft(root,a.id,path.read_text())
+        return training.attempt(root,a.id,path.read_text(),a.note)
+    if a.command=='training-complete':return training.complete(root,a.id,a.note)
+    if a.command=='training-web':
+        from . import training_web
+        return training_web.run(root,a.port,a.foreground,not a.no_browser)
     if a.command=='dashboard':return dashboard.make(root)
     if a.command=='validate':
         errors=core.validate(root)+learning.validate(root)
@@ -127,12 +151,12 @@ def execute(a):
 def main():
     args=parser().parse_args()
     try:
-        with (nullcontext() if args.command=='doctor' else core.locked(args.root.resolve())):
+        with (nullcontext() if args.command in {'doctor','training-web'} else core.locked(args.root.resolve())):
             result=execute(args)
             if args.command in {'import','screen','screen-batch','shortlist','source','build','review','record-submission','advance','restore'}:
                 core.checkpoint(args.root.resolve())
         print(json.dumps(result,indent=2,ensure_ascii=False))
-    except (ValueError,KeyError,FileNotFoundError,json.JSONDecodeError) as exc:
+    except (ValueError,KeyError,OSError,json.JSONDecodeError) as exc:
         print('Error: '+str(exc),file=sys.stderr)
         sys.exit(2)
 

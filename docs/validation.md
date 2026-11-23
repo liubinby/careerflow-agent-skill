@@ -1,5 +1,15 @@
 # Initial release verification
 
+## Guided training update (0.2.0)
+
+All 36 local tests pass. Added lifecycle and HTTP integration tests for lesson generation, persisted drafts, retries, immutable attempts, rubric review coverage, completion gates, unchanged professional claims, request queues, and shared CLI/browser records. Web tests reject cross-origin writes, missing tokens, Host rebinding and arbitrary workspace-file access; startup reuses only the same workspace. A regression test launches from a checkout with an obsolete engine to verify the child uses the correct runtime. Local socket tests require permission to bind localhost in restricted agent sandboxes.
+
+Exercised the real browser workflow against an isolated fictional workspace: request topic, generate lesson through CLI, start, save draft, reload and restore, submit, record agent feedback, refresh and complete. Confirmed responsive layout has no horizontal document overflow at 390 CSS pixels. No candidate progress was fabricated by this demonstration.
+
+Native host model invocation remains an explicit handoff rather than an automatically tested integration. The browser shows the prompt to paste into the user's chosen agent. The old browser-local planner remains separate; its existing data is not migrated.
+
+## Initial alpha (0.1.0)
+
 Verified locally on Python 3.10.15 / Linux, 2026-11-23 (27 tests):
 
 - Synthetic unit/integration tests cover import/deduplication, atomic decisions, shortlist gates, claim revisions, dependency freshness, caching, recovery, PDF builds, review gates and immutable/tamper-checked submissions.
