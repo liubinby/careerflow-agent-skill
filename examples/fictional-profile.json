@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "revision": 1,
+  "candidate": {
+    "name": "Alex Example",
+    "email": "alex@example.com",
+    "phone": "+1 202-555-0100",
+    "linkedin": "https://example.com/alex"
+  },
+  "employment": {
+    "example-studio": {
+      "employer": "Example Studio (fictional)",
+      "title": "Project Coordinator",
+      "dates": "2022–Present"
+    }
+  },
+  "education": ["B.A. Communications - Fictional University"],
+  "claims": {
+    "claim-demo": {
+      "id": "claim-demo",
+      "employment_id": "example-studio",
+      "text": "Coordinated project handoffs and maintained a shared issue log for a cross-functional team.",
+      "revision": 1,
+      "status": "active",
+      "verification": "fictional_demo",
+      "sources": [{"kind": "fictional_demo", "source": "Synthetic example; never a real candidate accomplishment"}],
+      "tags": ["coordination", "communication"],
+      "history": []
+    }
+  },
+  "preferences": {"demo_only": true}
+}

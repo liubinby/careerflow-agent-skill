@@ -1,0 +1,4 @@
+interface:
+  display_name: "Careerflow"
+  short_description: "Career profiles, applications, interviews and practice"
+  default_prompt: "Use $job-application-workflow to continue my career workspace and identify the next useful action."

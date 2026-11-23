@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "page": "letter",
+  "font": "Helvetica",
+  "body_size": 10,
+  "leading": 13.3,
+  "background": "#F5E5DC",
+  "ink": "#292323",
+  "accent": "#59434A",
+  "left": 42,
+  "right": 570,
+  "sidebar_width": 160,
+  "main_left": 231,
+  "main_width": 339
+}

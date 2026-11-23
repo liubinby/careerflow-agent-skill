@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+.careerflow/
+.env
+.env.*
+# A user who initializes here must not accidentally publish private records.
+/data/
+/applications/
+/interviews/
+/training/
+/evidence/
+/profile/
+/employment/
+/workspaces/
+/APPLICATIONS.html
+/APPLICATIONS.md
+.DS_Store

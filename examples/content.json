@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "resume": {
+    "headline": "Project Coordinator",
+    "summary": "Project coordinator experienced in organizing handoffs, maintaining issue records and communicating across teams.",
+    "skills": ["Project coordination and issue tracking", "Cross-functional communication"],
+    "experience": [{"employment_id": "example-studio", "claim_ids": ["claim-demo"]}]
+  },
+  "letter_source": "letter.md",
+  "letter_claim_ids": [],
+  "build_options": {"layouts": ["styled"], "include_letter": false},
+  "notes": "Fictional demonstration only. Not suitable for a real candidate."
+}
