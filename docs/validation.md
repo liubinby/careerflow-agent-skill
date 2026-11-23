@@ -1,6 +1,6 @@
 # Initial release verification
 
-Verified locally on Python 3.10.15 / Linux, 2026-11-23:
+Verified locally on Python 3.10.15 / Linux, 2026-11-23 (27 tests):
 
 - Synthetic unit/integration tests cover import/deduplication, atomic decisions, shortlist gates, claim revisions, dependency freshness, caching, recovery, PDF builds, review gates and immutable/tamper-checked submissions.
 - New acceptance tests cover blank initialization, safe input validation and no-overwrite behavior, a first draft without a reference application, workspace-relative paths, interview state independent of submissions, training artifacts, and unchanged professional claims after practice.

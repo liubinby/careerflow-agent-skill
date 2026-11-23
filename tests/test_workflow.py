@@ -95,7 +95,7 @@ class WorkflowTests(unittest.TestCase):
         built=render.build(self.root,app_id,('styled',),False)
         pdf=self.root/built['path']/'resume-styled.pdf'
         text=subprocess.check_output(['pdftotext',str(pdf),'-'],text=True)
-        self.assertIn('Example University',text)
+        self.assertIn('Example University',' '.join(text.split()))
         self.assertNotIn('LinkedIn profile',text)
         self.assertEqual(core.read(pdf.parent/'manifest.json')['outputs'][pdf.name]['pages'],1)
 
